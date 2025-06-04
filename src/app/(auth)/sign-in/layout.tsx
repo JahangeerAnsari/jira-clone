@@ -4,7 +4,7 @@ interface SignInLayoutProps{
 const SignInLayout = ({children}:SignInLayoutProps) => {
     return ( 
         <div className="flex flex-col">
-
+            {children}
         </div>
      );
 }
