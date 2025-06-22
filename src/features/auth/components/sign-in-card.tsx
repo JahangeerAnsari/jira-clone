@@ -38,6 +38,8 @@ export const SignInCard = () => {
     },
   });
   const onSubmit=(values:z.infer<typeof loginSchema>) =>{
+    console.log("values=================>",values);
+    
     mutate(values)
   }
 
@@ -52,19 +54,21 @@ export const SignInCard = () => {
       </div>
       <CardContent className="p-7">
         <Form {...form}>
-          <form className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               name="email"
               control={form.control}
               render={({ field }) => (
-                <Input
+               <FormItem>
+                <FormControl>
+                   <Input
+                {...field}
                   type="email"
-                  value={""}
                   placeholder="enter email address"
-                  required
-                  disabled={false}
-                  onChange={() => {}}
                 />
+                </FormControl>
+                <FormMessage/>
+               </FormItem>
               )}
             />
 
@@ -72,16 +76,16 @@ export const SignInCard = () => {
               name="password"
               control={form.control}
               render={({ field }) => (
-                <Input
+                 <FormItem>
+                <FormControl>
+                   <Input
+                {...field}
                   type="password"
-                  value={""}
                   placeholder="enter password"
-                  required
-                  disabled={false}
-                  onChange={() => {}}
-                  min={8}
-                  max={256}
                 />
+                </FormControl>
+                <FormMessage/>
+               </FormItem>
               )}
             />
             <Button disabled={false} size="lg" className="w-full">

@@ -1,10 +1,12 @@
-import {Hono} from "hono";
-import {handle} from "hono/vercel";
-import auth from "@/features/auth/server/route"
-const app = new Hono().basePath("/api");
-// base url for auth
-const routes = app.route("/auth",auth)
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
+import auth from "@/features/auth/server/route";
 
-// redirect this hono to GET Method
+const app = new Hono().basePath("/api");
+const routes =app.route("/auth", auth);
+
 export const GET = handle(app);
+export const POST = handle(app);
+
+// ✅ This is what you’ll pass to hc()
 export type AppType = typeof routes;
