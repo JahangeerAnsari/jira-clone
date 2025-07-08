@@ -5,6 +5,7 @@ import { sessionMiddleware } from "@/lib/session-middleware";
 import { DATABASES_ID, IMAGES_ID, MEMBER_ID, WORKSPACES_ID } from "@/config";
 import { ID, Query } from "node-appwrite";
 import { MemberRole } from "@/features/members/types";
+import { generateInviteCode } from "@/lib/utils";
 
 
 const app = new Hono()
@@ -52,7 +53,8 @@ const app = new Hono()
         {
             name,
           userId: user.$id,
-          imageUrl:uploadImageUrl
+          imageUrl: uploadImageUrl,
+          inviteCode: generateInviteCode(6),
        }
     );
     await databases.createDocument(
