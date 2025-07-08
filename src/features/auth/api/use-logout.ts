@@ -23,7 +23,8 @@ export const useLogout = () => {
         //    the the data will deleted and redirected to the sign-in page
         toast.success("logged Out")
         router.refresh()
-          queryClient.invalidateQueries({queryKey:["current"]})
+        queryClient.invalidateQueries({ queryKey: ["current"] })
+        queryClient.invalidateQueries({ queryKey: ["workspaces"] });
     },
     onError: () => {
         toast.error('Failed to logout')
