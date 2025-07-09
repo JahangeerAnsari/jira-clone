@@ -9,9 +9,11 @@ export default async function Home() {
   if (!user) {
     redirect("/sign-in");
   }
+  // if there is no workspace redirect to create workspace page
   if (workspaces.total === 0) {
      redirect("/workspaces/create")
   } else {
+    // else redirect to the perticular workspace
     redirect(`/workspaces/${workspaces?.documents[0].$id}`)
    }
   return (

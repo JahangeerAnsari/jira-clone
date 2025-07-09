@@ -22,6 +22,7 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
@@ -185,6 +186,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 variant="secondary"
                 onClick={onCancel}
                 disabled={isPending}
+                className={cn(!onCancel && "invisible")}
               >
                 Cancel
               </Button>
