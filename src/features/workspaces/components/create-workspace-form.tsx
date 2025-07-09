@@ -23,10 +23,10 @@ import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 interface CreateWorkspaceFormProps {
-  onClick?: () => void;
+  onCancel?: () => void;
 }
 
-export const CreateWorkspaceForm = ({ onClick }: CreateWorkspaceFormProps) => {
+export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate, isPending } = useCreateWorkspace();
 
@@ -52,13 +52,15 @@ export const CreateWorkspaceForm = ({ onClick }: CreateWorkspaceFormProps) => {
       ...values,
       image: values.image instanceof File ? values.image : "",
     };
-    mutate({ form: finalValue }, {
-      onSuccess: () => {
-        form.reset();
-        // TODO: Redirect to the new workspaces
+    mutate(
+      { form: finalValue },
+      {
+        onSuccess: () => {
+          form.reset();
+          // TODO: Redirect to the new workspaces
+        },
       }
-    });
-
+    );
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -178,7 +180,7 @@ export const CreateWorkspaceForm = ({ onClick }: CreateWorkspaceFormProps) => {
                 type="button"
                 size="lg"
                 variant="secondary"
-                onClick={onClick}
+                onClick={onCancel}
                 disabled={isPending}
               >
                 Cancel
