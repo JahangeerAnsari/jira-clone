@@ -14,11 +14,14 @@ export const useCreateWorkspace = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation<ResponseType, Error, RequestType>({
       mutationFn: async ({form}) => {
-        const response = await client.api.workspaces["$post"]({form});
+        const response = await client.api.workspaces["$post"]({ form });
+        if (!response.ok) {
+          throw new Error("Failed to create workspace");
+        }
         return await response.json();
       },
       onSuccess: () => {
-        toast("Workspace Created!");
+        toast.success("Workspace Created");
         // when we create new workspaces we will refetched the workspaces the created one
         queryClient.invalidateQueries({ queryKey: ["workspaces"] });
       },
