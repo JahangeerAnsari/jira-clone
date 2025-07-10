@@ -44,8 +44,7 @@ interface WorkspaceProps {
   workspaceId: string;
 }
 export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
-  console.log("workspaceId=====>", workspaceId);
-  
+ 
   try {
     const client = new Client()
       .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
