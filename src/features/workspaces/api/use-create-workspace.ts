@@ -18,7 +18,7 @@ export const useCreateWorkspace = () => {
         }
         return await response.json();
       },
-      onSuccess: () => {
+      onSuccess: ({data}) => {
         toast.success("Workspace Created");
         // when we create new workspaces we will refetched the workspaces the created one
         queryClient.invalidateQueries({ queryKey: ["workspaces"] });
