@@ -6,10 +6,10 @@ import workspaces from "@/features/workspaces/server/route";
 const app = new Hono().basePath("/api");
 const routes = app.route("/auth", auth)
 .route("/workspaces", workspaces);
-
 export const GET = handle(app);
 export const POST = handle(app);
 export const PATCH = handle(app);
+export const DELETE = handle(app);
 
 // ✅ This is what you’ll pass to hc()
 export type AppType = typeof routes;
