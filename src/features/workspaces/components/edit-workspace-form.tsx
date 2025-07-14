@@ -253,7 +253,7 @@ export const EditWorkspaceForm = ({
               Deleting a workpsace is a irreversible and removal of associated data
             </p>
             <Button className="mt-6 w-fit ml-auto" size="sm" variant="destructive"
-              type="button" disabled={isPending}
+              type="button" disabled={isPending || isWorkspaceDelete}
               onClick={() =>handleDelete()}
             >
                     Delete Workpsace
