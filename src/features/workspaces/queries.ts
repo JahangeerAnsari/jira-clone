@@ -1,6 +1,6 @@
 "use server";
 
-import { Account, Client, Databases, Query } from "node-appwrite";
+import {  Query } from "node-appwrite";
 
 import { DATABASES_ID, MEMBER_ID, WORKSPACES_ID } from "@/config";
 import { getMember } from "../members/utils";
@@ -34,7 +34,6 @@ interface WorkspaceProps {
   workspaceId: string;
 }
 export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
- 
   try {
     const { account, databases } = await createSessionClient();
     const user = await account.get();
@@ -42,7 +41,7 @@ export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
       databases,
       userId: user.$id,
       workspaceId,
-    });    
+    });
     if (!member) {
       return null;
     }
@@ -51,9 +50,26 @@ export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
       WORKSPACES_ID,
       workspaceId
     );
-   
+
     return workspace;
-  } catch (error) {  
+  } catch (error) {
+    return null;
+  }
+};
+interface getWorkspaceInfoProps {
+  workspaceId: string;
+}
+export const getWorkspaceInfo = async ({ workspaceId }: getWorkspaceInfoProps) => {
+  try {
+    const {  databases } = await createSessionClient();
+    const workspace = await databases.getDocument<Workspace>(
+      DATABASES_ID,
+      WORKSPACES_ID,
+      workspaceId
+    );
+
+    return {name:workspace.name};
+  } catch (error) {
     return null;
   }
 };
