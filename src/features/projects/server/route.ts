@@ -1,4 +1,4 @@
-import { DATABASES_ID, IMAGES_ID, PROJECT_ID, } from "@/config";
+import { DATABASES_ID, IMAGES_ID, PROJECT_ID } from "@/config";
 import { getMember } from "@/features/members/utils";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { zValidator } from "@hono/zod-validator";
@@ -16,16 +16,16 @@ const app = new Hono()
       const databases = c.get("databases");
       const storage = c.get("storage");
       const user = c.get("user");
-        const { name, image, workspaceId } = c.req.valid("form");
-        const member = await getMember({
-            databases,
-            workspaceId,
-            userId: user.$id
-        });
-        // if there is no member not allowed to create project
-        if (!member) {
-            return c.json({error:"Unauthorized"},401)
-        }
+      const { name, image, workspaceId } = c.req.valid("form");
+      const member = await getMember({
+        databases,
+        workspaceId,
+        userId: user.$id,
+      });
+      // if there is no member not allowed to create project
+      if (!member) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
       let uploadImageUrl: string | undefined;
       if (image instanceof File) {
         const file = await storage.createFile(IMAGES_ID, ID.unique(), image);
@@ -41,12 +41,12 @@ const app = new Hono()
         ID.unique(),
         {
           name,
-          userId: user.$id,
-            imageUrl: uploadImageUrl,
-          workspaceId
+
+          imageUrl: uploadImageUrl,
+          workspaceId,
         }
       );
-     
+
       return c.json({ data: project });
     }
   )

@@ -4,7 +4,7 @@ import {client} from "@/lib/rpc";
 import { toast } from "sonner";
 
 
-type ResponseType = InferResponseType<typeof client.api.projects["$post"]>;
+type ResponseType = InferResponseType<typeof client.api.projects["$post"],200>;
 type RequestType = InferRequestType<typeof client.api.projects["$post"]>;
 
 export const useCreateProject = () => {
