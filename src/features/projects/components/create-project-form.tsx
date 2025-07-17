@@ -36,7 +36,7 @@ const workspaceId = useWorkspaceId()
   const { mutate, isPending } = useCreateProject();
 
   const form = useForm<z.infer<typeof createProjectSchema>>({
-    resolver: zodResolver(createProjectSchema.omit({workspaceId})),
+    resolver: zodResolver(createProjectSchema.omit({workspaceId:true})),
     defaultValues: {
       name: "",
       image: undefined,

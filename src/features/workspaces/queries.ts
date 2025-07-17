@@ -8,7 +8,7 @@ import { Workspace } from "./types";
 import { createSessionClient } from "@/lib/appwrite";
 
 export const getWorkspaces = async () => {
-  try {
+ 
     const { account, databases } = await createSessionClient();
 
     const user = await account.get();
@@ -26,15 +26,13 @@ export const getWorkspaces = async () => {
     );
 
     return workspaces;
-  } catch (error) {
-    return { document: [], total: 0 };
-  }
+ 
 };
 interface WorkspaceProps {
   workspaceId: string;
 }
 export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
-  try {
+ 
     const { account, databases } = await createSessionClient();
     const user = await account.get();
     const member = await getMember({
@@ -43,7 +41,7 @@ export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
       workspaceId,
     });
     if (!member) {
-      return null;
+     throw new Error("Unauthorized")
     }
     const workspace = await databases.getDocument<Workspace>(
       DATABASES_ID,
@@ -52,15 +50,13 @@ export const getWorkspace = async ({ workspaceId }: WorkspaceProps) => {
     );
 
     return workspace;
-  } catch (error) {
-    return null;
-  }
+ 
 };
 interface getWorkspaceInfoProps {
   workspaceId: string;
 }
 export const getWorkspaceInfo = async ({ workspaceId }: getWorkspaceInfoProps) => {
-  try {
+
     const {  databases } = await createSessionClient();
     const workspace = await databases.getDocument<Workspace>(
       DATABASES_ID,
@@ -69,7 +65,5 @@ export const getWorkspaceInfo = async ({ workspaceId }: getWorkspaceInfoProps) =
     );
 
     return {name:workspace.name};
-  } catch (error) {
-    return null;
-  }
+ 
 };
