@@ -5,7 +5,8 @@ import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 import { ID, Query } from "node-appwrite";
 import { z } from "zod";
-import { createProjectSchema } from "../schema";
+import { createProjectSchema, UpdateProjectSchema } from "../schema";
+import { Project } from "../types";
 
 const app = new Hono()
   .post(
@@ -49,6 +50,52 @@ const app = new Hono()
 
       return c.json({ data: project });
     }
+  ).patch("/:projectId", sessionMiddleware, zValidator("form", UpdateProjectSchema),
+      async (c) => {
+        const databases = c.get("databases");
+        const storage = c.get("storage");
+        const user = c.get("user");
+        const { projectId } = c.req.param();
+        const { image, name } = c.req.valid("form");
+        const existingProject = await databases.getDocument<Project>(
+          DATABASES_ID,
+          PROJECT_ID,
+          projectId
+        )
+        const member = await getMember({
+          databases,
+          workspaceId:existingProject.workspaceId,
+          userId: user.$id,
+        });
+          
+        if (!member) {
+          return c.json({error:"Unauthrized"},401)
+        }
+  
+        //  update the image
+        let uploadImageUrl: string | undefined;
+        if (image instanceof File) {
+          const file = await storage.createFile(IMAGES_ID, ID.unique(), image);
+          const arrayBuffer = await storage.getFileDownload(IMAGES_ID, file.$id);
+          uploadImageUrl = `data:image/png;base64,${Buffer.from(
+            arrayBuffer
+          ).toString("base64")}`;
+        } else {
+          uploadImageUrl = image
+        }
+  
+        const project = await databases.updateDocument(
+          DATABASES_ID,
+          PROJECT_ID,
+          projectId,{
+            name,
+            imageUrl:uploadImageUrl
+          }
+        );
+        return c.json({ data: project });
+         
+      }
+    
   )
   .get(
     "/",
@@ -75,5 +122,5 @@ const app = new Hono()
       ]);
       return c.json({ data: projects });
     }
-  );
+  )
 export default app;
