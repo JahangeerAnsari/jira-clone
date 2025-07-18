@@ -4,31 +4,31 @@ import {client} from "@/lib/rpc";
 import { toast } from "sonner";
 
 
-type ResponseType = InferResponseType<typeof client.api.workspaces[":workspaceId"]["$delete"],200>;
+type ResponseType = InferResponseType<typeof client.api.projects[":projectId"]["$delete"],200>;
 type RequestType = InferRequestType<
-  (typeof client.api.workspaces)[":workspaceId"]["$delete"]
+  (typeof client.api.projects)[":projectId"]["$delete"]
 >;
 
-export const useDeleteWorkspace = () => {
+export const useDeleteProject = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation<ResponseType, Error, RequestType>({
       mutationFn: async ({param}) => {
-        const response = await client.api.workspaces[":workspaceId"]["$delete"](
-          { param }
-        );
+        const response = await client.api.projects[":projectId"]["$delete"]({
+          param,
+        });
         if (!response.ok) {
-          throw new Error("Failed to delete workspace");
+          throw new Error("Failed to delete project");
         }
         return await response.json();
       },
       onSuccess: ({data}) => {
-        toast.success("Workspace Deleted");
+        toast.success("Project Deleted");
         // when we create new workspaces we will refetched the workspaces the created one
-        queryClient.invalidateQueries({ queryKey: ["workspaces"] });
-        queryClient.invalidateQueries({ queryKey: ["workspaces", data.$id] });
+        queryClient.invalidateQueries({ queryKey: ["projects"] });
+        queryClient.invalidateQueries({ queryKey: ["projects", data.$id] });
       },
       onError: () => {
-        toast.error("Failed to delete  workspace")
+        toast.error("Failed to delete projects")
       }
     });
     return mutation;

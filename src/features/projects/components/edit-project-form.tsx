@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import { Project } from "../types";
 import { useUpdateProject } from "../api/use-update-project";
 import { UpdateProjectSchema } from "../schema";
+import { useDeleteProject } from "../api/use-delete-project";
 
 interface EditProjectFormProps {
   onCancel?: () => void;
@@ -38,6 +39,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate, isPending } = useUpdateProject();
+  const {mutate:deleteProject,isPending:isDeleteProject} = useDeleteProject()
   const form = useForm<z.infer<typeof UpdateProjectSchema>>({
     resolver: zodResolver(UpdateProjectSchema),
     defaultValues: {
@@ -88,21 +90,19 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
       form.setValue("image", file);
     }
   };
-  const handleDelete = async () => {
-    // deleteWorkspace(
-    //   {
-    //     param: { workspaceId: initialValues.$id },
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       window.location.href = "/";
-    //     },
-    //   }
-    // );
+  const handleDeleteProject = async () => {
+    deleteProject(
+      {
+        param: { projectId: initialValues.$id },
+      },
+      {
+        onSuccess: () => {
+           window.location.href = `/workspaces/${initialValues.workspaceId}`
+        },
+      }
+    );
   };
-  const fullInviteLink = `${window.location.origin}/workspaces/
-  ${initialValues.$id}/join/${initialValues.inviteCode}`;
-
+  
   return (
     <div className="flex flex-col gap-y-4">
       <Card className="w-full h-full border-none shadow-none">
@@ -274,8 +274,8 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
               size="sm"
               variant="destructive"
               type="button"
-              disabled={isPending}
-              onClick={() => handleDelete()}
+              disabled={isPending || isDeleteProject}
+              onClick={() => handleDeleteProject()}
             >
               Delete Project
             </Button>
