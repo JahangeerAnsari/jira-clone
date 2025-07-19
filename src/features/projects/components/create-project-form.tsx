@@ -31,7 +31,8 @@ interface CreateProjectFormProps {
 }
 
 export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
-const workspaceId = useWorkspaceId()
+  const workspaceId = useWorkspaceId();
+   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate, isPending } = useCreateProject();
 
@@ -61,9 +62,11 @@ const workspaceId = useWorkspaceId()
     mutate(
       { form: finalValue },
       {
-        onSuccess: () => {
+        onSuccess: ({data}) => {
           form.reset();
-          // TODO: Redirect to project screen 
+          // TODO: Redirect to project id Page
+          router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
+          
          
         },
       }
