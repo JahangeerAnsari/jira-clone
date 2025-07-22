@@ -19,7 +19,7 @@ export const useGetTasks = ({
 }: UseGetTaskProps) => {
   const query = useQuery({
     // workspaceId added on the query it will reload everytime changed (workspacId)
-    queryKey: ["tasks", workspaceId, projectId, status, search, assigneeId],
+    queryKey: ["tasks", workspaceId, projectId, status, search, assigneeId,dueDate],
     queryFn: async () => {
       // here we are using fetch method not axios so not using trycatch
       const response = await client.api.tasks.$get({
