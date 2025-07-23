@@ -11,6 +11,8 @@ export const ProjectAvatar = ({
   className,
   image,
 }: WorkpsaceAvatarProps) => {
+  
+   
   if (image) {
     return (
       <div
@@ -23,7 +25,7 @@ export const ProjectAvatar = ({
   return (
     <Avatar className={cn("size-8 rounded-md", className)}>
       <AvatarFallback className="text-white bg-blue-600 font-semibold text-lg uppercase rounded-md">
-        {name[0]}
+        {name?.[0]}
       </AvatarFallback>
     </Avatar>
   );

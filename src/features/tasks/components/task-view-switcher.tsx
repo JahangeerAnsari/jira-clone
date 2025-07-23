@@ -9,6 +9,9 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useQueryState } from "nuqs";
 import { DataFilters } from "./data-filters";
 import { useTaskFilters } from "../hooks/use-task-filters";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
+
 export const TaskViewSwitcher = () => {
   // set default value to the tabs
   const [view, setView] = useQueryState('task-view', { defaultValue: "table" });
@@ -49,15 +52,17 @@ export const TaskViewSwitcher = () => {
           </Button>
         </div>
         <DottedSeparator className="my-4" />
-       <DataFilters/>
+        <DataFilters />
         <DottedSeparator className="my-4" />
         {isLoadingTasks ? (
           <div className="w-full border rounded-lg h-[200px] flex flex-col items-center justify-center">
-           <Loader className="size-5 animate-spin text-muted-foreground"/> 
+            <Loader className="size-5 animate-spin text-muted-foreground" />
           </div>
-         ) : (
+        ) : (
           <>
-            <TabsContent value="table">{JSON.stringify(tasks)}</TabsContent>
+            <TabsContent value="table">
+                <DataTable columns={columns} data={ tasks?.documents ?? []} />
+            </TabsContent>
             <TabsContent value="kanban">Data kanban</TabsContent>
             <TabsContent value="calender">Data calender</TabsContent>
           </>
