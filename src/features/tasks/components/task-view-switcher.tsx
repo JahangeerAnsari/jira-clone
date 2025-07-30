@@ -15,6 +15,7 @@ import { DataKanban } from "./data-kanban";
 import { useCallback } from "react";
 import { TaskStatus } from "../types";
 import { DataCalender } from "./data-calender";
+import { useBulkUpdateTasks } from "../api/use-bulk-update-task";
 
 export const TaskViewSwitcher = () => {
   // set default value to the tabs
@@ -30,11 +31,16 @@ export const TaskViewSwitcher = () => {
     status,
     dueDate,
   });
-  const onKanbabChange = useCallback((
-    tasks: { $id: string; status: TaskStatus; positions:number}[]
-  ) => {
-    console.log("tasks",tasks);
-  },[])
+  const {mutate:bulkUpdate} = useBulkUpdateTasks()
+  const onKanbabChange = useCallback(
+    (tasks: { $id: string; status: TaskStatus; positions: number }[]) => {
+     
+      bulkUpdate({
+        json:  {tasks} ,
+      });
+    },
+    [bulkUpdate]
+  );
   return (
     <Tabs
       defaultValue={view}
