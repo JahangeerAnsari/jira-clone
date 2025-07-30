@@ -73,7 +73,7 @@ export const DataCalender = ({ data }: DataCalenderProps) => {
         }
     }
     return (
-      <div className="calendar-container h-[500px]">
+      <div className="calendar-container h-[600px]">
         <Calendar
           localizer={localizer}
           date={value}
