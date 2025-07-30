@@ -14,6 +14,7 @@ import { columns } from "./columns";
 import { DataKanban } from "./data-kanban";
 import { useCallback } from "react";
 import { TaskStatus } from "../types";
+import { DataCalender } from "./data-calender";
 
 export const TaskViewSwitcher = () => {
   // set default value to the tabs
@@ -74,8 +75,8 @@ export const TaskViewSwitcher = () => {
             <TabsContent value="kanban">
               <DataKanban onChange={onKanbabChange} data={tasks?.documents ?? []} />
             </TabsContent>
-            <TabsContent value="calender">
-              {/* <DataKanban data={tasks?.documents ?? []} /> */}
+            <TabsContent value="calender" className="mt-0 h-full pb-4">
+                <DataCalender data={tasks?.documents ?? []} />
             </TabsContent>
           </>
         )}
