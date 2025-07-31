@@ -93,33 +93,36 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
         </SelectContent>
       </Select>
       {/* based on the project */}
-      <Select
-        defaultValue={projectId ?? undefined}
-        onValueChange={(value) => onProjectChange(value)}
-      >
-        <SelectTrigger className="w-full lg:w-auto h-8">
-          <div className="flex items-center pr-2">
-            <FolderIcon className="size-4 mr-2" />
-            <SelectValue placeholder="All Assignees" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all"> All Projects</SelectItem>
-          <SelectSeparator />
-          {projectOptions?.map((project) => (
-            <SelectItem key={project.value} value={project.value}>
-              {project.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {!hideProjectFilter && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={(value) => onProjectChange(value)}
+        >
+          <SelectTrigger className="w-full lg:w-auto h-8">
+            <div className="flex items-center pr-2">
+              <FolderIcon className="size-4 mr-2" />
+              <SelectValue placeholder="All Assignees" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all"> All Projects</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map((project) => (
+              <SelectItem key={project.value} value={project.value}>
+                {project.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
       {/* filter based on the date */}
       <DatePicker
         placeholder="Due Date"
         className="h-8 w-full lg:w-auto"
-        value={dueDate ? new Date(dueDate): undefined}
+        value={dueDate ? new Date(dueDate) : undefined}
         onChange={(date) => {
-          setFilters({dueDate: date ? date.toISOString() : null})
+          setFilters({ dueDate: date ? date.toISOString() : null });
         }}
       />
     </div>
