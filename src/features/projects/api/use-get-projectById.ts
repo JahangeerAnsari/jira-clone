@@ -6,7 +6,7 @@ interface UseGetProjectsProps{
 export const useGetProjectById = ({ projectId }: UseGetProjectsProps) => {
   const query = useQuery({
     // workspaceId added on the query it will reload everytime changed (workspacId)
-    queryKey: ["project", projectId],
+    queryKey: ["projects", projectId],
     queryFn: async () => {
       // here we are using fetch method not axios so not using trycatch
       const response = await client.api.projects[":projectId"].$get({
