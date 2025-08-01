@@ -50,53 +50,76 @@ const app = new Hono()
 
       return c.json({ data: project });
     }
-  ).patch("/:projectId", sessionMiddleware, zValidator("form", UpdateProjectSchema),
-      async (c) => {
-        const databases = c.get("databases");
-        const storage = c.get("storage");
-        const user = c.get("user");
-        const { projectId } = c.req.param();
-        const { image, name } = c.req.valid("form");
-        const existingProject = await databases.getDocument<Project>(
-          DATABASES_ID,
-          PROJECT_ID,
-          projectId
-        )
-        const member = await getMember({
-          databases,
-          workspaceId:existingProject.workspaceId,
-          userId: user.$id,
-        });
-          
-        if (!member) {
-          return c.json({error:"Unauthrized"},401)
-        }
-  
-        //  update the image
-        let uploadImageUrl: string | undefined;
-        if (image instanceof File) {
-          const file = await storage.createFile(IMAGES_ID, ID.unique(), image);
-          const arrayBuffer = await storage.getFileDownload(IMAGES_ID, file.$id);
-          uploadImageUrl = `data:image/png;base64,${Buffer.from(
-            arrayBuffer
-          ).toString("base64")}`;
-        } else {
-          uploadImageUrl = image
-        }
-  
-        const project = await databases.updateDocument(
-          DATABASES_ID,
-          PROJECT_ID,
-          projectId,{
-            name,
-            imageUrl:uploadImageUrl
-          }
-        );
-        return c.json({ data: project });
-         
-      }
-    
   )
+
+  .patch(
+    "/:projectId",
+    sessionMiddleware,
+    zValidator("form", UpdateProjectSchema),
+    async (c) => {
+      const databases = c.get("databases");
+      const storage = c.get("storage");
+      const user = c.get("user");
+      const { projectId } = c.req.param();
+      const { image, name } = c.req.valid("form");
+      const existingProject = await databases.getDocument<Project>(
+        DATABASES_ID,
+        PROJECT_ID,
+        projectId
+      );
+      const member = await getMember({
+        databases,
+        workspaceId: existingProject.workspaceId,
+        userId: user.$id,
+      });
+
+      if (!member) {
+        return c.json({ error: "Unauthrized" }, 401);
+      }
+
+      //  update the image
+      let uploadImageUrl: string | undefined;
+      if (image instanceof File) {
+        const file = await storage.createFile(IMAGES_ID, ID.unique(), image);
+        const arrayBuffer = await storage.getFileDownload(IMAGES_ID, file.$id);
+        uploadImageUrl = `data:image/png;base64,${Buffer.from(
+          arrayBuffer
+        ).toString("base64")}`;
+      } else {
+        uploadImageUrl = image;
+      }
+
+      const project = await databases.updateDocument(
+        DATABASES_ID,
+        PROJECT_ID,
+        projectId,
+        {
+          name,
+          imageUrl: uploadImageUrl,
+        }
+      );
+      return c.json({ data: project });
+    }
+  )
+  .get("/:projectId", sessionMiddleware, async (c) => {
+    const user = c.get("user");
+    const databases = c.get("databases");
+    const { projectId } = c.req.param();
+    const project = await databases.getDocument<Project>(
+      DATABASES_ID,
+      PROJECT_ID,
+      projectId
+    );
+    const member = await getMember({
+      databases,
+      workspaceId: project.workspaceId,
+      userId: user.$id,
+    });
+    if (!member) {
+      return c.json({ error: "Unauthrized" }, 401);
+    }
+    return c.json({ data: project });
+  })
   .get(
     "/",
     sessionMiddleware,
@@ -122,7 +145,8 @@ const app = new Hono()
       ]);
       return c.json({ data: projects });
     }
-  ).delete("/:projectId", sessionMiddleware, async (c) => {
+  )
+  .delete("/:projectId", sessionMiddleware, async (c) => {
     const databases = c.get("databases");
     const user = c.get("user");
     const { projectId } = c.req.param();
@@ -136,15 +160,11 @@ const app = new Hono()
       workspaceId: existingProject.workspaceId,
       userId: user.$id,
     });
-    if (!member ) {
-      return c.json({error:"Unauthrized"},401)
+    if (!member) {
+      return c.json({ error: "Unauthrized" }, 401);
     }
     // delete task related to project
-    await databases.deleteDocument(
-      DATABASES_ID,
-      PROJECT_ID,
-      projectId
-    )
-    return c.json({data:{$id:existingProject.$id}})
-  })
+    await databases.deleteDocument(DATABASES_ID, PROJECT_ID, projectId);
+    return c.json({ data: { $id: existingProject.$id } });
+  });
 export default app;
