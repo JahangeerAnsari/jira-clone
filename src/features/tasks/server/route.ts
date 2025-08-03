@@ -9,7 +9,7 @@ import { z } from "zod";
 import { Task, TaskStatus } from "../types";
 import { createAdminClient } from "@/lib/appwrite";
 import { Project } from "@/features/projects/types";
-import { email, string } from "zod/v4";
+
 
 const app = new Hono()
   .delete("/:taskId", sessionMiddleware, async (c) => {
@@ -140,7 +140,6 @@ const app = new Hono()
     zValidator("json", createTaskSchema),
     async (c) => {
       const databases = c.get("databases");
-      const storage = c.get("storage");
       const user = c.get("user");
       const {
         name,
@@ -148,7 +147,7 @@ const app = new Hono()
         dueDate,
         projectId,
         status,
-        description,
+        
         workspaceId,
       } = c.req.valid("json");
 
@@ -237,7 +236,7 @@ const app = new Hono()
   .get("/:taskId", sessionMiddleware, async (c) => {
     const currentUser = c.get("user");
     const databases = c.get("databases");
-    const { account, users } = await createAdminClient();
+    const {  users } = await createAdminClient();
     const { taskId } = c.req.param();
     const task = await databases.getDocument<Task>(
       DATABASES_ID,

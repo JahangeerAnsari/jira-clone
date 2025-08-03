@@ -3,9 +3,7 @@
 import { DottedSeparator } from "@/components/dotted-separator";
 import { PageError } from "@/components/page-error";
 import { PageLoader } from "@/components/page-loader";
-import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { useGetTaskById } from "@/features/tasks/api/use-get-task-by-id";
-import { OverviewProperty } from "@/features/tasks/components/overview-property";
 import { TaskBreadcrumbs } from "@/features/tasks/components/task-breadcrumbs";
 import { TaskDescription } from "@/features/tasks/components/task-description";
 import { TaskOverview } from "@/features/tasks/components/task-overview";

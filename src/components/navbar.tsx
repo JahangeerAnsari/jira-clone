@@ -1,7 +1,6 @@
 "use client";
 import { UserButton } from "@/features/auth/components/user-button"
 import { MobileSidebar } from "./mobile-sidebar"
-import { Description } from "@radix-ui/react-dialog";
 import { usePathname } from "next/navigation";
 const pathnameMap = {
   "tasks": {

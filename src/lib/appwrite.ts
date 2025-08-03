@@ -1,6 +1,6 @@
 import { AUTH_COOKIES } from "@/features/auth/constants";
 import { cookies } from "next/headers";
-import { Account, Client, Databases, Storage, Users } from "node-appwrite";
+import { Account, Client, Databases, Users } from "node-appwrite";
 export async function createSessionClient(){
      const client = new Client()
           .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 interface EventCardProps{
     title: string;
-    assignee: any;
+    assignee: string;
     project: Project;
     status: TaskStatus;
     id:string

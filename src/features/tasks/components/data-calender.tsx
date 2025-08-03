@@ -1,4 +1,4 @@
-import { format, getDate, parse, startOfWeek, addMonths, subMonths, getDay } from 'date-fns';
+import { format, parse, startOfWeek, addMonths, subMonths, getDay } from 'date-fns';
 import {enUS } from "date-fns/locale"
 import {Calendar,dateFnsLocalizer} from 'react-big-calendar'
 import { Task } from "../types"

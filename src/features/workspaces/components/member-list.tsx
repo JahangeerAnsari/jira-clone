@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useWorkspaceId } from "../hooks/use-workspace-id";
 import { Button } from "@/components/ui/button";
-import {  ArrowLeftIcon, MoreVertical, MoreVerticalIcon } from "lucide-react";
+import {  ArrowLeftIcon, MoreVerticalIcon } from "lucide-react";
 import Link from "next/link";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { useGetMembers } from "@/features/members/api/use-get-members";
@@ -27,7 +27,7 @@ export const MemberList = () => {
   const handleDeleteMember = (memberId: string) => {
     deleteMember({param:{memberId}},{
       onSuccess: () => {
-        window.location.reload
+        window.location.reload()
       }
     })
   }

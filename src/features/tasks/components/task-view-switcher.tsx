@@ -23,10 +23,10 @@ interface TaskViewSwitcherProps{
 export const TaskViewSwitcher = ({hideProjectFilter}: TaskViewSwitcherProps) => {
   // set default value to the tabs
   const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
-  const [{ assigneeId, dueDate, projectId, search, status }] = useTaskFilters();
+  const [{ assigneeId, dueDate, projectId,  status }] = useTaskFilters();
   const workspaceId = useWorkspaceId();
   const paramProjectId = useProjectId();
-  const { open, close } = useCreateTaskModal();
+  const { open } = useCreateTaskModal();
   const { data: tasks, isLoading: isLoadingTasks } = useGetTasks({
     workspaceId,
   projectId :paramProjectId || projectId,

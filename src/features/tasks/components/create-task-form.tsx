@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,8 +40,6 @@ interface CreateTaskFormProps {
 
 export const CreateTaskForm = ({ onCancel,memberOptions,projectOptions }: CreateTaskFormProps) => {
   const workspaceId = useWorkspaceId();
-  const router = useRouter();
-  const inputRef = useRef<HTMLInputElement>(null);
   const {mutate, isPending:isTaskCreatingPending} = useCreateTask()
 
   const form = useForm<z.infer<typeof createTaskSchema>>({

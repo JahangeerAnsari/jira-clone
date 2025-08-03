@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {InferRequestType,InferResponseType } from "hono";
 import {client} from "@/lib/rpc";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 
@@ -18,7 +17,7 @@ export const useCreateWorkspace = () => {
         }
         return await response.json();
       },
-      onSuccess: ({data}) => {
+      onSuccess: () => {
         toast.success("Workspace Created");
         // when we create new workspaces we will refetched the workspaces the created one
         queryClient.invalidateQueries({ queryKey: ["workspaces"] });

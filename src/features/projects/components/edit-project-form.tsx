@@ -16,14 +16,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { DottedSeparator } from "@/components/dotted-separator";
-import { ArrowLeft, ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
+import {  ArrowLeftIcon, ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-import { toast } from "sonner";
 
 import { Project } from "../types";
 import { useUpdateProject } from "../api/use-update-project";
