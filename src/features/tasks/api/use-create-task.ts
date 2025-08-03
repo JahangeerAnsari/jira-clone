@@ -21,6 +21,7 @@ export const useCreateTask = () => {
         toast.success("Task  Created");
         // when we create new workspaces we will refetched the workspaces the created one
         queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        queryClient.invalidateQueries({ queryKey: ["project-analytics"] });
       },
       onError: () => {
         toast.error("Failed to create task");
