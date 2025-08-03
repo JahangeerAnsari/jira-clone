@@ -7,7 +7,7 @@ import projects from "@/features/projects/server/route";
 import tasks from "@/features/tasks/server/route";
 
 const app = new Hono().basePath("/api");
-const routes = app
+ app
   .route("/auth", auth)
   .route("/workspaces", workspaces)
   .route("/members", members)

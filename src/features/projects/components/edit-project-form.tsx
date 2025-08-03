@@ -53,7 +53,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
       ...initialValues,
       image: initialValues.imageUrl ?? "",
     });
-  }, [initialValues]);
+  }, [initialValues,form]);
   const imageValue = form.watch("image");
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
         param: { projectId: initialValues.$id },
       },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: () => {
           form.reset();
           // TODO: Redirect to the project
         },

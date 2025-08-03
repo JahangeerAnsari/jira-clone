@@ -35,7 +35,7 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
     value: member.$id,
     label: member.name,
   }));
-  const [{ assigneeId, dueDate, projectId, search, status }, setFilters] =
+  const [{ assigneeId, dueDate, projectId, status }, setFilters] =
     useTaskFilters();
   const onStatusChange = (value: string) => {
     setFilters({ status: value === "all" ? null : (value as TaskStatus) });
