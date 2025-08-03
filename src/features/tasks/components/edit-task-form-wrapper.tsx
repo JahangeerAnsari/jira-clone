@@ -5,6 +5,8 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { Loader } from "lucide-react";
 import { useGetTaskById } from "../api/use-get-task-by-id";
 import { EditTaskForm } from "./edit-task-form";
+import { Project } from "@/features/projects/types";
+import { Member } from "@/features/members/types";
 
 interface EditTaskFormWrapperProps {
   onCancel: () => void;
@@ -13,9 +15,7 @@ interface EditTaskFormWrapperProps {
 export const EditTaskFormWrapper = ({ onCancel,id }: EditTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceId();
   const { data: task, isLoading: isLoadingTask } = useGetTaskById({ taskId: id })
-  console.log("");
-  console.log("task=============>",task);
-  
+ 
   // get project
   const { data: projects, isLoading: isLoadingProjects } = useGetProjects({
     workspaceId,
@@ -23,12 +23,12 @@ export const EditTaskFormWrapper = ({ onCancel,id }: EditTaskFormWrapperProps) =
   const { data: members, isLoading: isLoadingMembers } = useGetMembers({
     workspaceId,
   });
-  const projectOptions = projects?.documents.map((project) => ({
+  const projectOptions = projects?.documents.map((project:Project) => ({
     id: project.$id,
     name: project.name,
     imageUrl: project.imageUrl,
   }));
-  const memberOptions = members?.documents.map((member) => ({
+  const memberOptions = members?.documents.map((member:Member) => ({
     id: member.$id,
     name: member.name,
   }));

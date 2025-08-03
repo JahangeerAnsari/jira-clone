@@ -13,6 +13,8 @@ import { FolderIcon, ListCheckIcon, UserIcon } from "lucide-react";
 import { TaskStatus } from "../types";
 import { useTaskFilters } from "../hooks/use-task-filters";
 import { DatePicker } from "@/components/date-picker";
+import { Project } from "@/features/projects/types";
+import { Member } from "@/features/members/types";
 
 interface DataFiltersProps {
   hideProjectFilter?: boolean;
@@ -27,11 +29,11 @@ export const DataFilters = ({ hideProjectFilter }: DataFiltersProps) => {
   });
   const isLoading = isProjectsLoading || isMembersLoading;
 
-  const projectOptions = projects?.documents.map((project) => ({
+  const projectOptions = projects?.documents.map((project:Project) => ({
     value: project.$id,
     label: project.name,
   }));
-  const memberOptions = members?.documents.map((member) => ({
+  const memberOptions = members?.documents.map((member:Member) => ({
     value: member.$id,
     label: member.name,
   }));

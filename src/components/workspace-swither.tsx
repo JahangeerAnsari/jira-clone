@@ -12,6 +12,7 @@ import { WorkpsaceAvatar } from "../features/workspaces/components/workspace-ava
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { useCreateWorkspaceModal } from "@/features/workspaces/hooks/use-create-workspace-modal";
+import { Workspace } from "@/features/workspaces/types";
 export const WorkspaceSwitcher = () => {
   const { open}=useCreateWorkspaceModal();
   const router= useRouter()
@@ -35,7 +36,7 @@ export const WorkspaceSwitcher = () => {
           <SelectValue placeholder="No Workpsace selected " />
         </SelectTrigger>
         <SelectContent>
-          {workspaces?.documents?.map((workspace) => (
+          {workspaces?.documents?.map((workspace: Workspace) => (
             <SelectItem key={workspace.$id} value={workspace.$id}>
               <div className="flex justify-start items-center gap-3 font-medium">
                 <WorkpsaceAvatar
