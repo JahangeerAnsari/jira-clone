@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import { DottedSeparator } from "@/components/dotted-separator";
 import { cn } from "@/lib/utils";
-import { createTaskSchema } from "../schema";
+import { createTaskFormSchema } from "../schema";
 import { DatePicker } from "@/components/date-picker";
 import { Select,SelectContent,SelectItem,SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
@@ -41,9 +41,9 @@ export const EditTaskForm = ({
 }: EditTaskFormProps) => {
   const { mutate, isPending:isTaskUpdating } = useUpdateTask();
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
+  const form = useForm<z.infer<typeof createTaskFormSchema>>({
     resolver: zodResolver(
-      createTaskSchema
+      createTaskFormSchema
     ),
     defaultValues: {
       ...task,
@@ -51,7 +51,7 @@ export const EditTaskForm = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
+  const onSubmit = (values: z.infer<typeof createTaskFormSchema>) => {
     mutate(
       {
         json:values,param:{taskId:task.$id}

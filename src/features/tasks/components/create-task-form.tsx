@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
-import { createTaskSchema } from "../schema";
+import { createTaskFormSchema } from "../schema";
 import { useCreateTask } from "../api/use-create-task";
 import { DatePicker } from "@/components/date-picker";
 import { Select,SelectContent,SelectItem,SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -42,26 +42,24 @@ export const CreateTaskForm = ({ onCancel,memberOptions,projectOptions }: Create
   const workspaceId = useWorkspaceId();
   const {mutate, isPending:isTaskCreatingPending} = useCreateTask()
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(createTaskSchema),
-    defaultValues: {
-     workspaceId
-    },
+  const form = useForm<z.infer<typeof createTaskFormSchema>>({
+    resolver: zodResolver(createTaskFormSchema),
+   
   });
 
-  const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
-    
+  const onSubmit = (values: z.infer<typeof createTaskFormSchema>) => {
     mutate(
       {
         json: {
-        ...values, workspaceId
-      } },
+          ...values,
+          workspaceId,
+        },
+      },
       {
         onSuccess: () => {
           form.reset();
           // TODO: Redirect to the new task which is created
-          onCancel?.()
-          
+          onCancel?.();
         },
       }
     );

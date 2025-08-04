@@ -1,10 +1,10 @@
+// CreateProjectForm.tsx
 "use client";
 
 import { useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -23,7 +23,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useCreateProject } from "../api/use-create-project";
-import { createProjectSchema } from "../schema";
+import { createProjectFormSchema } from "../schema"; // use form schema
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
 interface CreateProjectFormProps {
@@ -36,12 +36,11 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutate, isPending } = useCreateProject();
 
-  const form = useForm<z.infer<typeof createProjectSchema>>({
-    resolver: zodResolver(createProjectSchema),
+  const form = useForm<z.infer<typeof createProjectFormSchema>>({
+    resolver: zodResolver(createProjectFormSchema),
     defaultValues: {
       name: "",
       image: undefined,
-     
     },
   });
 
@@ -54,7 +53,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
     }
   }, [imageValue]);
 
-  const onSubmit = (values: z.infer<typeof createProjectSchema>) => {
+  const onSubmit = (values: z.infer<typeof createProjectFormSchema>) => {
     const finalValue = {
       ...values,
       image: values.image instanceof File ? values.image : "",
@@ -65,7 +64,6 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
       {
         onSuccess: ({ data }) => {
           form.reset();
-          // TODO: Redirect to project id Page
           router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
         },
       }
@@ -95,7 +93,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-y-4">
-              {/* Workspace Name */}
+              {/* Project Name */}
               <FormField
                 name="name"
                 control={form.control}
@@ -114,7 +112,7 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
                 )}
               />
 
-              {/* Workspace Image Upload */}
+              {/* Project Image Upload */}
               <FormField
                 control={form.control}
                 name="image"

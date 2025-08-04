@@ -56,7 +56,7 @@ export const TaskViewSwitcher = ({hideProjectFilter}: TaskViewSwitcherProps) => 
               Table
             </TabsTrigger>
             <TabsTrigger className="h-8 w-full lg:w-auto" value="kanban">
-              Kanban
+              Board
             </TabsTrigger>
             <TabsTrigger className="h-8 w-full lg:w-auto" value="calender">
               {" "}
