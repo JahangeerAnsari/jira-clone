@@ -6,3 +6,7 @@ export type Workspace = Models.Document & {
     inviteCode: string;
     userId: string;
 }
+export interface WorkspacesResponse {
+  total: number;
+  documents: Workspace[];
+}

@@ -16,12 +16,17 @@ import { Workspace } from "@/features/workspaces/types";
 export const WorkspaceSwitcher = () => {
   const { open}=useCreateWorkspaceModal();
   const router= useRouter()
-  const { data: workspaces } = useGetWorkspaces();
+ 
   const workspaceId = useWorkspaceId()
   
   const handleWorkspace = (id:string) => {
     router.push(`/workspaces/${id}`)
-}
+  }
+  
+  const { data: workspaces, isLoading, isError } = useGetWorkspaces();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError || !workspaces) return <p>Something went wrong</p>;
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
@@ -36,8 +41,7 @@ export const WorkspaceSwitcher = () => {
           <SelectValue placeholder="No Workpsace selected " />
         </SelectTrigger>
         <SelectContent>
-          {
-            workspaces?.documents?.map((workspace: Workspace) => (
+          {workspaces.documents.map((workspace: Workspace) => (
             <SelectItem key={workspace.$id} value={workspace.$id}>
               <div className="flex justify-start items-center gap-3 font-medium">
                 <WorkpsaceAvatar
