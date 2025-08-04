@@ -14,12 +14,12 @@ export async function GET(request:NextRequest) {
   const { account } = await createAdminClient();
   const session = await account.createSession(userId, secret);
 
-  cookies().set(AUTH_COOKIES, session.secret, {
+cookies().set(AUTH_COOKIES, session.secret, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
     secure: true,
   });
 
-  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_API_UR}/`);
+  return NextResponse.redirect(`${request.nextUrl.origin}/`);
 }
