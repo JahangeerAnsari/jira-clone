@@ -6,7 +6,7 @@ export const useCurrent = () => {
         queryKey: ["current"],
         queryFn: async () => {
             // here we are using fetch method not axios so not using trycatch
-            const response = await client.api.auth.current.$get();
+            const response = await client.api?.auth.current.$get();
             if (!response.ok) {
                 // we are not thow error we always attempt to fetch this
                 return null
