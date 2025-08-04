@@ -2,21 +2,24 @@ import { client } from "@/lib/rpc";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetWorkspaces = () => {
-  const query = useQuery({
-    queryKey: ["workspaces"],
-    queryFn: async () => {
-      // here we are using fetch method not axios so not using trycatch
-      const response = await client.api.workspaces.$get();
-      if (!response.ok) {
-        throw new Error("Failed to fetch workspaces")
-      }
-      const { data } = await response.json();
-      return data;
-    },
-    
-    
-  },
+ return useQuery({
+   queryKey: ["workspaces"],
+   queryFn: async () => {
+     const response = await client.api.workspaces.$get();
 
-);
-  return query;
+     if (!response.ok) {
+       throw new Error("Failed to fetch workspaces");
+     }
+
+     const { data } = await response.json();
+
+     // normalize response shape
+     if ("documents" in data && Array.isArray(data.documents)) {
+       return data.documents;
+     }
+
+     return []; // fallback empty array
+   },
+ });
+ 
 };
