@@ -6,10 +6,12 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+	"./src/features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
   		colors: {
+			
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -21,7 +23,7 @@ const config: Config = {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+  				DEFAULT: '#1D4ED8',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
