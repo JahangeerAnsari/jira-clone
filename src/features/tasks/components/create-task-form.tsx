@@ -43,7 +43,7 @@ export const CreateTaskForm = ({ onCancel,memberOptions,projectOptions }: Create
   const {mutate, isPending:isTaskCreatingPending} = useCreateTask()
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
+    resolver: zodResolver(createTaskSchema),
     defaultValues: {
      workspaceId
     },

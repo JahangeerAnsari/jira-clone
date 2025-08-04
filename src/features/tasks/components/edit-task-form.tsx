@@ -43,7 +43,7 @@ export const EditTaskForm = ({
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
     resolver: zodResolver(
-      createTaskSchema.omit({ workspaceId: true, description: true })
+      createTaskSchema
     ),
     defaultValues: {
       ...task,

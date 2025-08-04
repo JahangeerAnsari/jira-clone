@@ -290,24 +290,28 @@ const app = new Hono()
     ), async (c) => {
       const databases = c.get("databases");
       const user = c.get("user")
-      const { tasks } = await c.req.valid("json");
+      const { tasks } =  c.req.valid("json");
       const taskToUpdate = await databases.listDocuments<Task>(
         DATABASES_ID,
         TASK_ID,
         [Query.contains("$id",tasks.map((task) => task.$id))]
       )
-      const workspaceIds = new Set(
-        taskToUpdate.documents.map((task) => task.workspaceId)
-      );
-      if (workspaceIds.size !== 1) {
-        return c.json({error:"All task must belong to the same workspace"})
-      }
-      const workspaceId = workspaceIds?.values().next().value;
-      const member = await getMember({
-        databases,
-        workspaceId,
-        userId:user.$id
-      })
+     const workspaceIds = new Set(
+       taskToUpdate.documents.map((task) => task.workspaceId)
+     );
+
+     if (workspaceIds.size !== 1) {
+       return c.json({ error: "All tasks must belong to the same workspace" });
+     }
+
+     const workspaceId = workspaceIds.values().next().value as string;
+
+     const member = await getMember({
+       databases,
+       workspaceId,
+       userId: user.$id,
+     });
+
       if (!member) {
         return c.json({error:"Unauthrized"},401)
       }
